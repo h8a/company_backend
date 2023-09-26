@@ -9,7 +9,6 @@ class CreateEmployeeSchema(BaseModel):
     last_name: str
     surname: Optional[str]
     birthdate: date
-    number_employee: str
     curp: str
     ssn: str
     phone: str
