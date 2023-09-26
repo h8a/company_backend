@@ -21,6 +21,7 @@ class EmployeesRepository:
     async def add(self, employee):
         employee['id'] = str(uuid.uuid4())
         employee['create_at'] = datetime.utcnow()
+        employee['number_employee'] = str(uuid.uuid4()).split('-')[0].upper()
         employee = EmployeesModel(**employee)
         params = (
             employee.id,
