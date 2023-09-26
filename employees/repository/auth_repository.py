@@ -5,7 +5,6 @@ from datetime import datetime
 import jwt
 from passlib.hash import pbkdf2_sha256
 from employees.repository.models import UsersModel
-from employees.web.app import settings
 
 
 class AuthRepository:
@@ -48,18 +47,18 @@ class AuthRepository:
             return []
         return json.loads(results[0])[0] 
 
-    def generate_token(self, payload, secret=settings.jwt_secret, algorithm='HS256'):
+    def generate_token(self, payload, secret, algorithm='HS256'):
         return jwt.encode(
             payload=payload,
             key=secret,
             algorithm=algorithm
         ) 
 
-    def valid_token(self, token):
+    def valid_token(self, token, secret):
         try:
             return jwt.decode(
                 token,
-                settings.jwt_secret,
+                secret,
                 algorithms=['HS256']
             )
         except jwt.InvalidTokenError:

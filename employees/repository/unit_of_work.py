@@ -6,7 +6,7 @@ class UnitOfWork:
 
     def __init__(self) -> None:
         self.server = settings.db_server
-        self.database = settings.db_username
+        self.database = settings.db_name
         self.username = settings.db_username
         self.password = settings.db_password
 
