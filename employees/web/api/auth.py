@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from fastapi import status, HTTPException
 from employees.repository.auth_repository import AuthRepository
 from employees.repository.unit_of_work import UnitOfWork
-from employees.web.app import app
+from employees.web.app import app, settings
 from employees.web.api.schemas import LoginSchema
 
 @app.post('/auth/login', status_code=status.HTTP_202_ACCEPTED)
@@ -20,7 +20,8 @@ async def login_user(payload: LoginSchema):
             payload={
                 'id': user_db.get('id'),
                 'exp': datetime.utcnow() + timedelta(minutes=60*24),
-            }
+            },
+            secret=settings.jwt_secret
         )
         return {
             'id': user_db.get('id'),

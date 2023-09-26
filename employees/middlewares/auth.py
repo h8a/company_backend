@@ -13,7 +13,11 @@ from fastapi.responses import Response, JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 
 
+from employees.web.settings import Settings
 from employees.repository.auth_repository import AuthRepository
+
+
+settings = Settings()
 
 
 class AuthorizeRequestMiddleware(BaseHTTPMiddleware):
@@ -41,7 +45,7 @@ class AuthorizeRequestMiddleware(BaseHTTPMiddleware):
         try:
             auth = AuthRepository()
             auth_token = bearer_token.split(" ")[1].strip()
-            token_payload = auth.valid_token(auth_token)
+            token_payload = auth.valid_token(auth_token, secret=settings.jwt_secret)
         except (
             ExpiredSignatureError,
             ImmatureSignatureError,
